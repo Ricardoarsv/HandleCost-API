@@ -12,3 +12,7 @@ async def create_user(user: UserBase, db: db_dependency):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+
+@router.get("/users/get_users")
+async def get_users(db: db_dependency):
+    return db.query(User).all()
