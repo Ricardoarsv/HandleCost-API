@@ -1,6 +1,6 @@
 # HandleCostAPI
 
-HandleCostAPI es una API para la gestión de categorías, ítems y autenticación de usuarios. Proporciona endpoints para crear, actualizar y eliminar categorías e ítems, así como para gestionar la autenticación de usuarios mediante tokens.
+HandleCostAPI es una API para la gestión de ingresos y egresos de usuarios. Proporciona endpoints para crear, actualizar y eliminar categorías, tipos de categoriaws e ítems (gastos/ingresos), así como para gestionar la autenticación de usuarios mediante tokens JWT.
 
 ## Inicialización de la API
 
@@ -34,6 +34,8 @@ uvicorn main:app --reload
 
 ## Endpoints
 
+**Las rutas necesitan de un Autorization con el token JWT asignado para funcionar, de forma que no cualquier puede hacer llamados a la api si no le corresponde el dato**
+
 # Autenticación
 **Iniciar sesión y obtener token de acceso**
 URL: /token
@@ -42,53 +44,109 @@ Resumen: Iniciar sesión para obtener un token de acceso.
 Cuerpo de la solicitud:
 
 {
-  "grant_type": "password",
   "username": "string",
   "password": "string",
-  "scope": "string",
-  "client_id": "string",
-  "client_secret": "string"
 }
 Respuestas:
 200: Respuesta exitosa con el esquema Token.
 422: Error de validación con el esquema HTTPValidationError.
 
-# Categorías
-**Crear Categoría**
-URL: /categories
+# Tipos
+**Crear tipo**
+URL: /types/create_type
 Método: POST
-Resumen: Crear una nueva categoría.
+Resumen: Crear un nuevo tipo.
 Cuerpo de la solicitud:
 
 {
+  "typeName": "string",
+  "owner_id": 0,
+  "active": true,
+  "color": "string",
+  "is_negative": true
+}
+
+Respuestas:
+200: Tipo creado exitosamente.
+422: Error de validación.
+
+**Obtener tipos**
+URL: /types/get_types/{owner_id}
+Método: GET
+Resumen: Obtener los tipos de un usuario.
+Parametro: owner_id (Id de usuario)
+
+Respuestas:
+200: tipos obtenidos exitosamente.
+422: Error de validación.
+
+**Actualizar tipos**
+URL: /types/update_type/{categorytype_id}
+Método: PUT
+Resumen: Actualizar un tipo en especifico.
+Parametro: categorytype_id (Id de tipo)
+Cuerpo de la solicitud:
+{
+  "typeName": "string",
+  "color": "string",
+  "active": true
+}
+Respuestas:
+200: tipos obtenidos exitosamente.
+422: Error de validación.
+
+
+# Categorías
+**Crear Categoría**
+URL: /categories/create_category
+Método: POST
+Resumen: Crear una nueva categoría.
+Cuerpo de la solicitud:
+{
   "title": "string",
   "color": "string",
-  "category_type": 1,
-  "owner_id": 1
+  "category_type": 0,
+  "owner_id": 0
 }
+
 Respuestas:
 200: Categoría creada exitosamente.
 422: Error de validación.
 
+**Obtener Categorías**
+URL: /categories/get_categories/{owner_id}
+Método: POST
+Resumen: Crear una nueva categoría.
+Parametro: owner_id (Id de usuario)
+
+Respuestas:
+200: Categorias obtenidas exitosamente.
+422: Error de validación.
+
+
 **Actualizar Categoría**
-URL: /categories/{id}
+URL: /categories/update_category/{category_id}
 Método: PUT
 Resumen: Actualizar una categoría existente.
+Parametro: category_id (Id de categoria)
 Cuerpo de la solicitud:
 
 {
   "title": "string",
+  "category_type": 0,
   "color": "string",
-  "category_type": 1,
   "active": true
 }
 Respuestas:
 200: Categoría actualizada exitosamente.
 422: Error de validación.
 
+
+
+
 # Ítems
 **Crear Ítem**
-URL: /items
+URL: /items/create_item
 Método: POST
 Resumen: Crear un nuevo ítem.
 Cuerpo de la solicitud:
@@ -96,92 +154,51 @@ Cuerpo de la solicitud:
 {
   "title": "string",
   "description": "string",
-  "category": 1,
-  "cost": 100.0,
-  "createDate": "YYYY-MM-DD",
-  "owner_id": 1
+  "category": 0,
+  "cost": 0,
+  "createDate": "2024-07-27",
+  "owner_id": 0
 }
+
 Respuestas:
 200: Ítem creado exitosamente.
 422: Error de validación.
 
 **Actualizar Ítem**
-URL: /items/{id}
+URL: /items/update_item/{item_id}
 Método: PUT
 Resumen: Actualizar un ítem existente.
+Parametro: item_id (Id de item)
 Cuerpo de la solicitud:
 
 {
   "title": "string",
   "description": "string",
-  "category": 1,
-  "cost": 100.0
+  "category": 0,
+  "cost": 0
 }
+
 Respuestas:
 200: Ítem actualizado exitosamente.
 422: Error de validación.
-Esquemas
-Token
 
-{
-  "access_token": "string",
-  "token_type": "string",
-  "user": "integer"
-}
-HTTPValidationError
+**Obtener Ítem**
+URL: /items/get_items/{owner_id}
+Método: PUT
+Resumen: Actualizar un ítem existente.
+Parametro: owner_id (Id de usuario)
 
-{
-  "detail": [
-    {
-      "loc": ["string"],
-      "msg": "string",
-      "type": "string"
-    }
-  ]
-}
-CategoryCreate
+Respuestas:
+200: Ítems obtenidos exitosamente.
+422: Error de validación.
 
-{
-  "title": "string",
-  "color": "string",
-  "category_type": 1,
-  "owner_id": 1
-}
-CategoryUpdate
+**Eliminar Ítem**
+URL: /items/delete_item/{item_id}
+Método: PUT
+Resumen: Actualizar un ítem existente.
+Parametro: item_id (Id de item)
 
-{
-  "title": "string",
-  "color": "string",
-  "category_type": 1,
-  "active": true
-}
-ItemCreate
+Respuestas:
+200: Ítem eliminado exitosamente.
+422: Error de validación.
 
-{
-  "title": "string",
-  "description": "string",
-  "category": 1,
-  "cost": 100.0,
-  "createDate": "YYYY-MM-DD",
-  "owner_id": 1
-}
-ItemUpdate
-
-{
-  "title": "string",
-  "description": "string",
-  "category": 1,
-  "cost": 100.0
-}
-Seguridad
-OAuth2PasswordBearer
-
-{
-  "type": "oauth2",
-  "flows": {
-    "password": {
-      "tokenUrl": "token",
-      "scopes": {}
-    }
-  }
-}
