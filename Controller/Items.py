@@ -1,13 +1,14 @@
 # Controller/Items.py
 from pydantic import BaseModel
 from typing import Optional
-
+from datetime import date
 
 class ItemBase(BaseModel):
     title: str
     description: str
-    category: str
+    category: int
     cost: float
+    createDate: date
 
 
 class ItemCreate(ItemBase):
@@ -17,7 +18,7 @@ class ItemCreate(ItemBase):
 class ItemUpdate(BaseModel):
     title: Optional[str]
     description: Optional[str]
-    category: Optional[str]
+    category: Optional[int]
     cost: Optional[float]
 
 
@@ -26,4 +27,4 @@ class ItemInDB(ItemBase):
     owner_id: int
 
     class Config:
-        orm_mode: True
+        from_attributes: True
