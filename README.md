@@ -38,15 +38,15 @@ uvicorn main:app --reload
 
 # Autenticación
 **Iniciar sesión y obtener token de acceso**
-URL: /token
-Método: POST
-Resumen: Iniciar sesión para obtener un token de acceso.
-Cuerpo de la solicitud:
+**URL:** /token
+**Método:** POST
+**Resumen:** Iniciar sesión para obtener un token de acceso.
+**Cuerpo de la solicitud:**
 
-{
-  "username": "string",
-  "password": "string",
-}
+**{**
+  **"username": "string",**
+  **"password": "string",**
+**}**
 Respuestas:
 200: Respuesta exitosa con el esquema Token.
 422: Error de validación con el esquema HTTPValidationError.
