@@ -37,25 +37,16 @@ uvicorn main:app --reload
 **Las rutas necesitan de un Autorization con el token JWT asignado para funcionar, de forma que no cualquier puede hacer llamados a la api si no le corresponde el dato**
 
 # Autenticación
-**Iniciar sesión y obtener token de acceso**
-___
-**URL:** /token
-___
-**Método:** POST
-___
-**Resumen:** Iniciar sesión para obtener un token de acceso.
-___
-**Cuerpo de la solicitud:**
-___
+**Iniciar sesión y obtener token de acceso**  
+**URL:** /token  
+**Método:** POST  
+**Resumen:** Iniciar sesión para obtener un token de acceso.  
+**Cuerpo de la solicitud:**  
 
-{
-___
-  "username": "string",
-___
-  "password": "string",
-___
-}
-___
+{  
+  "username": "string",  
+  "password": "string",  
+}  
 Respuestas:
 200: Respuesta exitosa con el esquema Token.
 422: Error de validación con el esquema HTTPValidationError.
